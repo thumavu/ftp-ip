@@ -1,4 +1,4 @@
-#include "../../includes/Client.h"
+#include "../../includes/client.h"
 
 int     recv_file(int sock, char *file_name)
 {
@@ -11,16 +11,15 @@ int     recv_file(int sock, char *file_name)
     char    recv_str[MAX_RECV_BUF];
     size_t  send_strlen;
 
-//    sprintf(send_str, "%s\n", file_name);
     send_strlen = strlen(send_str);
     if ((send_bytes = send(sock, file_name, send_strlen, 0)) < 0)
     {
-        printf("send error");
+        printf("send error\n");
         return (-1);
     }
-    if ((f = open(file_name, O_WRONLY , 0644)) < 0)
+    if ((f = open(file_name, O_WRONLY|O_CREAT , 0644)) < 0)
     {
-        printf("error creating file");
+        printf("error creating file\n");
         return (-1);
     }
     recv_count = 0;
@@ -31,7 +30,7 @@ int     recv_file(int sock, char *file_name)
         recv_file_size = 0;
         if (write(f, recv_str, rcvd_bytes) < 0)
         {
-            printf("error writing to file");
+            printf("error writing to file\n");
             return (-1);
         }
     }
